@@ -19,6 +19,7 @@ textarea {
 <body onmousedown="mouseClick();" oncontextmenu="return false;">
   <div id="click" class="click"></div>
   Clicks:  <input id="count" type="text" value="0" size="4"> <button id="reset">reset</button><br />
+  Double click timing:  <input id="dcTiming" type="text" value="0.08" size="4"> <br />
   Fast double click count:  <input id="dcCount" type="text" value="0" size="4"> <br />
   <textarea id="textarea"></textarea>
   
@@ -29,11 +30,13 @@ textarea {
 var textarea = document.getElementById('textarea');
 var clicks = document.getElementById('count');
 var dcCount = document.getElementById('dcCount');
+var dcTiming = document.getElementById('tcTiming');
 var reset = document.getElementById('reset');
 reset.onclick = function() {
   clicks.value = 0;
   dcCount.value = 0;
   textarea.value = '';
+  dcTiming.value = 0.08;
   click.style.background = 'orange';
 }
 
@@ -57,7 +60,7 @@ var prevClickMicrotime = microtime(true);
 function clickEvent() {
 	clickTime = microtime(true);
   diff = clickTime - prevClickMicrotime;
-  if(diff <= 0.08) {
+  if(diff <= dcTiming.value) {
     click.style.background = 'red';
     dcCount.value++;
   }
